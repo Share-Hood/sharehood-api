@@ -2,6 +2,7 @@ require('./util/LoggerUtil')
 const express = require('express')
 const Loader = require('./Loader')
 const DBConnectionFactory = require('./factory/DBConnectionFactory')
+const PORT = process.env.PORT || 3000
 
 const init = async () => {
     
@@ -21,7 +22,7 @@ const init = async () => {
 
     Loader.loadAll(app);
 
-    app.listen(3000, () => {
+    app.listen(PORT , () => {
         global.logger.success(`API rodando na porta 3000`);
     })    
 } 
