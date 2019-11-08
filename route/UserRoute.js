@@ -8,6 +8,9 @@ module.exports = class UserRoute {
             .get(UserController.findAll)
             .post(UserController.create)
 
+        app.route('/login')
+            .post(UserController.login)
+
     }
 
 }
