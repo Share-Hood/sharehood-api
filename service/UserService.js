@@ -3,19 +3,46 @@ const User = Mongoose.model('User')
 
 module.exports = class UserService {
 
+    static validade(user) {
+        let errors = []
+        if (!user.name) errors.push("nome")
+        if (!user.email) errors.push("email")
+        if (!user.password) errors.push("senha")
+        if(errors.length == 1) return `O campo: ${errors.toString()} é obrigatório`
+        else if(errors.length > 1) return `Os campos: ${errors.toString()} são obrigatórios`
+        return ''
+    }
+
     static async findAll() {
         try {
             return await User.find({})
         } catch (error) {
-            throw new Error(`UserService: Erro ao buscar todos os usuários: ${error.message}`)
+            throw {
+                message: `UserService: Erro ao buscar todos os usuários: ${error.message}`
+            }
         }        
     }
 
     static async create(user) {
         try {
+            let errors = UserService.validade(user)
+            if(errors) throw {
+                message: `UserService: Usuário inválido: ${errors}`,
+                clientMessage: errors
+            }
             return await User.create(user)
         } catch (error) {
-            throw new Error(`UserService: Cadastrar usuário: ${error.message}`)
+            if(error.code == 11000) {
+                throw {
+                    message: `UserService: Erro cadastrar usuário, email já existente: ${error.message}`,
+                    clientMessage: error.clientMessage || 'Email já existente'
+                }
+            } else {
+                throw {
+                    message: `UserService: Erro ao cadastrar usuário: ${error.message}`,
+                    clientMessage: error.clientMessage || 'Erro ao cadastrar cliente'
+                }
+            }
         }        
     }
 

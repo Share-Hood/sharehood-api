@@ -6,6 +6,7 @@ module.exports = class UserRoute {
         
         app.route('/users')
             .get(UserController.findAll)
+            .post(UserController.create)
 
     }
 

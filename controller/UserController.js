@@ -8,19 +8,18 @@ module.exports = class UserController {
             res.json(await UserService.findAll())
         } catch (error) {
             console.log(`UserController: Erro ao buscar todos os usuários: ${error.message}`)
-            res.status(500).send()
+            res.status(500).send(error.clientMessage || `Erro ao buscar usuários`)
         }
 
     }
 
     static async create(req, res) {
-
         try {
             await UserService.create(req.body)
             res.json("Usuário criado com sucesso!")
         } catch (error) {
             console.log(`UserController: Erro ao cadastrar usuário: ${error.message}`)
-            res.status(500).send()
+            res.status(500).send(error.clientMessage || `Erro ao cadastrar usuário`)
         }
 
     }
