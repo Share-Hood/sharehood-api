@@ -1,12 +1,14 @@
 require("./util/LoggerUtil");
 const express = require("express");
-var bodyParser = require("body-parser");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 const Loader = require("./Loader");
 const DBConnectionFactory = require("./factory/DBConnectionFactory");
 const PORT = process.env.PORT || 3000;
 
 const init = async () => {
   let app = express();
+  app.use(cors())
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
