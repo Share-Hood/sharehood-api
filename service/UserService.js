@@ -44,6 +44,26 @@ module.exports = class UserService {
     }
   }
 
+  static async findByEmail(user) {
+    try {
+      let foundedUser = await User.findOne(user);
+      if (foundedUser) return foundedUser;
+      else {
+        throw {
+          message: `UserService: Usuário não encontrado`,
+          clientMessage: `Usuário não encontrado`,
+          status: 404
+        };
+      }
+    } catch (error) {
+      throw {
+        message: `UserService: Erro ao buscar usuário por email: ${error.message}`,
+        clientMessage: error.clientMessage || `Erro ao buscar usuário por email`,
+        status: error.status || 500
+      };
+    }
+  }
+
   static async create(user) {
     try {
       let errors = UserService.validade(user);

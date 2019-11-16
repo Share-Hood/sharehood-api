@@ -11,6 +11,9 @@ module.exports = class UserRoute {
         app.route('/login')
             .post(UserController.login)
 
+        app.route('/forgot-password')
+            .post(UserController.forgotPassword)
+
     }
 
 }
