@@ -7,6 +7,8 @@ module.exports = class UserService {
     if (!user.name) errors.push("nome");
     if (!user.email) errors.push("email");
     if (!user.password) errors.push("senha");
+    if (!user.cellphone) errors.push("celular");
+    if (!user.cpf) errors.push("CPF");
     if (errors.length == 1)
       return `O campo: ${errors.toString()} é obrigatório`;
     else if (errors.length > 1)
@@ -76,8 +78,8 @@ module.exports = class UserService {
     } catch (error) {
       if (error.code == 11000) {
         throw {
-          message: `UserService: Erro cadastrar usuário, email já existente: ${error.message}`,
-          clientMessage: error.clientMessage || "Email já existente",
+          message: `UserService: Erro cadastrar usuário, os dados: email, CPF ou celular já existente: ${error.message}`,
+          clientMessage: error.clientMessage || "Usuário já cadastrado",
           status: 400
         };
       } else {

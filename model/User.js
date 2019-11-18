@@ -16,6 +16,16 @@ class User extends Mongoose.Schema {
             password: {
                 type: String,
                 required: true,
+            },
+            cellphone: {
+                type: String,
+                required: true,
+                unique: true
+            },
+            cpf: {
+                type: String,
+                required: true,
+                unique: true
             }
         })
 
