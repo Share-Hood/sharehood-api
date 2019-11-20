@@ -17,7 +17,9 @@ module.exports = class RequestService {
 
   static async findAll() {
     try {
-      return await Request.find({});
+      return await Request.find({})
+        .populate("user")
+        .exec();
     } catch (error) {
       throw {
         message: `RequestService: Erro ao buscar todos os pedidos: ${error.message}`
