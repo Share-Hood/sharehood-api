@@ -11,7 +11,7 @@ class Lending extends Mongoose.Schema {
             },
             finalizedDate: {
                 type: Date,
-                default: null
+                default: ""
             },
             request: {
                 type: Mongoose.Types.ObjectId,
