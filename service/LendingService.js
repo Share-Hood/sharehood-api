@@ -2,7 +2,6 @@ const Mongoose = require("mongoose");
 const Lending = Mongoose.model("Lending");
 
 module.exports = class LendingService {
-
   static validade(lending) {
     let errors = [];
     if (!lending.request) errors.push("pedido");
@@ -27,7 +26,13 @@ module.exports = class LendingService {
 
   static async findByLenderOrBorrower(lenderId, borrowerId) {
     try {
-      return await Lending.find({ $or: [ { lender: lenderId }, { borrower: borrowerId } ] });
+      return await Lending.find({
+        $or: [{ lender: lenderId }, { borrower: borrowerId }]
+      })
+        .populate("request")
+        .populate("lender")
+        .populate("borrower")
+        .exec();
     } catch (error) {
       throw {
         message: `LendingService: Erro ao buscar empréstimo por usuário: ${error.message}`
@@ -37,7 +42,10 @@ module.exports = class LendingService {
 
   static async findByLender(lenderId) {
     try {
-      return await Lending.find({ lender: lenderId });
+      return await Lending.find({ lender: lenderId })
+        .populate("request")
+        .populate("lender")
+        .populate("borrower");
     } catch (error) {
       throw {
         message: `LendingService: Erro ao buscar empréstimo por emprestador: ${error.message}`
@@ -47,7 +55,10 @@ module.exports = class LendingService {
 
   static async findByBorrower(borrowerId) {
     try {
-      return await Lending.find({ borrower: borrowerId });
+      return await Lending.find({ borrower: borrowerId })
+        .populate("request")
+        .populate("lender")
+        .populate("borrower");
     } catch (error) {
       throw {
         message: `LendingService: Erro ao buscar empréstimo por emprestante: ${error.message}`
@@ -57,7 +68,9 @@ module.exports = class LendingService {
 
   static async finalizeLending(lendingId) {
     try {
-      return await Lending.findByIdAndUpdate(lendingId, { finalizedDate: new Date() })
+      return await Lending.findByIdAndUpdate(lendingId, {
+        finalizedDate: new Date()
+      });
     } catch (error) {
       throw {
         message: `LendingService: Erro ao finalizar empréstimo: ${error.message}`
