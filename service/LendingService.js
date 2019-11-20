@@ -29,7 +29,13 @@ module.exports = class LendingService {
       return await Lending.find({
         $or: [{ lender: lenderId }, { borrower: borrowerId }]
       })
-        .populate("request")
+        .populate({ 
+          path: 'request',
+          populate: {
+            path: 'user',
+            model: 'User'
+          } 
+       })
         .populate("lender")
         .populate("borrower")
         .exec();
