@@ -20,6 +20,11 @@ class Request extends Mongoose.Schema {
                 type: Mongoose.Types.ObjectId,
                 required: true,
                 ref: 'User'
+            },
+            attended: {
+                type: Boolean,
+                required: true,
+                default: false
             }
         })
 

@@ -5,7 +5,7 @@ module.exports = class UserController {
     static async findAll(_, res){
 
         try {
-            res.json(await RequestService.findAll())
+            res.json(await RequestService.findAllNotAttended())
         } catch (error) {
             console.log(`UserController: Erro ao buscar todos os pedidos: ${error.message}`)
             res.status(error.status || 500).send(error.clientMessage || `Erro ao buscar pedidos`)
